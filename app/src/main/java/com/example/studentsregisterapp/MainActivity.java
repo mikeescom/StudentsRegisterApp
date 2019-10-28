@@ -1,18 +1,34 @@
 package com.example.studentsregisterapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.studentsregisterapp.db.MyRecyclerViewAdapter;
+import com.example.studentsregisterapp.db.StudentsDatabase;
+import com.example.studentsregisterapp.db.entity.Student;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private MyRecyclerViewAdapter myRecyclerViewAdapter;
+    private List<Student> studentList = new ArrayList<>();
+    private StudentsDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,35 +37,57 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        db = Room.databaseBuilder(getApplicationContext(),
+                StudentsDatabase.class, "students_database").allowMainThreadQueries().build();
+
+        recyclerView = findViewById(R.id.recycler_view);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        updateRecyclerView();
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this, AddStudentActivity.class);
+                startActivityForResult(intent, 1);
             }
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                updateRecyclerView();
+            }
+        }
+    }
+
+    private void updateRecyclerView() {
+        studentList = db.studentDAO().getAllStudents();
+        myRecyclerViewAdapter = new MyRecyclerViewAdapter(studentList);
+        recyclerView.setAdapter(myRecyclerViewAdapter);
+        myRecyclerViewAdapter.notifyDataSetChanged();
     }
 }
