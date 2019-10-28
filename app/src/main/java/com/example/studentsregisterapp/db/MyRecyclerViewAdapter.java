@@ -5,9 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studentsregisterapp.R;
+import com.example.studentsregisterapp.databinding.RecyclerViewItemBinding;
 import com.example.studentsregisterapp.db.entity.Student;
 
 import java.util.List;
@@ -25,19 +27,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recycler_view_item, parent, false);
-        return new ViewHolder(view);
+        RecyclerViewItemBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext())
+        , R.layout.recycler_view_item, parent, false);
+        return new ViewHolder(binding);
     }
 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Student student = mData.get(position);
-        holder.studentsName.setText(student.getName());
-        holder.studentsEmail.setText(student.getEmail());
-        holder.studentsCountry.setText(student.getCountry());
-        holder.studentsDate.setText(student.getDate());
+        holder.binding.setStudent(student);
     }
 
     // total number of rows
@@ -49,17 +48,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView studentsName;
-        TextView studentsEmail;
-        TextView studentsCountry;
-        TextView studentsDate;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            studentsName = itemView.findViewById(R.id.students_name);
-            studentsEmail = itemView.findViewById(R.id.students_email);
-            studentsCountry = itemView.findViewById(R.id.students_country);
-            studentsDate = itemView.findViewById(R.id.students_date);
+        private RecyclerViewItemBinding binding;
+
+
+        ViewHolder(RecyclerViewItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+
             itemView.setOnClickListener(this);
         }
 

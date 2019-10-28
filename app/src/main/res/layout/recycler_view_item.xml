@@ -1,41 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/students_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/background_dark"
-        android:textSize="24dp"
-        android:text="Miguel"/>
-    <TextView
-        android:id="@+id/students_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="21dp"
-        android:text="miguel@gmail.com"/>
-
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="student"
+            type="com.example.studentsregisterapp.db.entity.Student" />
+    </data>
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/students_country"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textSize="21dp"
-            android:text="Mexico"/>
-        <TextView
-            android:id="@+id/students_date"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textSize="21dp"
-            android:text="Oct 27 2019"/>
-    </LinearLayout>
+        android:layout_height="wrap_content">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/students_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/background_dark"
+            android:textSize="24dp"
+            android:text="@{student.name}"/>
+        <TextView
+            android:id="@+id/students_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="21dp"
+            android:text="@{student.email}"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/students_country"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="21dp"
+                android:text="@{student.country}"/>
+            <TextView
+                android:id="@+id/students_date"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="21dp"
+                android:text="@{student.date}"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
