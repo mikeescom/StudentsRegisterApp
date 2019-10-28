@@ -1,48 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AddStudentActivity"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="student"
+            type="com.example.studentsregisterapp.db.entity.Student" />
 
-    <TextView
+        <variable
+            name="clickHandler"
+            type="com.example.studentsregisterapp.AddStudentActivity.AddStudentActivityClickHandlers" />
+    </data>
+    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="24dp"
-        android:text="Students name"/>
-    <EditText
-        android:id="@+id/student_name_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        tools:context=".AddStudentActivity"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="24dp"
-        android:text="Students email"/>
-    <EditText
-        android:id="@+id/student_email_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="24dp"
+            android:text="@{student.name}"/>
+        <EditText
+            android:id="@+id/student_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="24dp"
-        android:text="Students country"/>
-    <EditText
-        android:id="@+id/student_country_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="24dp"
+            android:text="@{student.email}"/>
+        <EditText
+            android:id="@+id/student_email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/save_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SAVE"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="24dp"
+            android:text="@{student.country}"/>
+        <EditText
+            android:id="@+id/student_country_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{clickHandler::onSaveButtonClicked}"
+            android:text="SAVE"/>
+
+    </LinearLayout>
+</layout>
